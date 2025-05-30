@@ -64,10 +64,10 @@ public class MuestraDatos1 extends javax.swing.JFrame {
     }
         // Asigna el icono de la imagen al estar ejecutandose la interfaz
     @Override
-    public Image getIconImage() {
+    public Image getIconImage() {        
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("PruebaMuestraDatosSQL/img/Logo.png"));
         return retValue;
-    }
+    }    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -95,6 +95,7 @@ public class MuestraDatos1 extends javax.swing.JFrame {
         jOpenFile = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -287,7 +288,7 @@ public class MuestraDatos1 extends javax.swing.JFrame {
             String queryText = jTextSqlQuerys.getText().trim();
             String specificQuery = queryText.substring(0, 6).toLowerCase();
             switch (specificQuery) {
-                case "insert", "update", "delete" -> {
+                case "insert", "update", "delete", "create", "alter", "drop" -> {
                     try {
                         String result = Consulta.executeQueryWrite(Conexion.getConexion(Conexion.getIdSGBD()), queryText);
                         JOptionPane.showMessageDialog(null, result, "Resultado de Consulta", JOptionPane.INFORMATION_MESSAGE);
@@ -445,7 +446,7 @@ public class MuestraDatos1 extends javax.swing.JFrame {
             // PASO 2: Crear patrones de expresiones regulares para identificar cada elemento
             Pattern stringPattern = Pattern.compile("\"([^\"\\\\]|\\\\.)*\"");    // Cadenas: "texto"
             Pattern charPattern = Pattern.compile("'([^'\\\\]|\\\\.)'");          // Caracteres: 'c'
-            Pattern querysReadWritePattern = Pattern.compile("\\b(SELECT|select|FROM|from|WHERE|where|INSERT|insert|INTO|into|UPDATE|update|VALUES|values|SET|set|DELETE|delete)\\b");  // Palabras reservadas
+            Pattern querysReadWritePattern = Pattern.compile("\\b(SELECT|select|FROM|from|WHERE|where|INSERT|insert|INTO|into|UPDATE|update|VALUES|values|SET|set|DELETE|delete|CREATE|create|ALTER|alter|DROP|drop)\\b");  // Palabras reservadas
             Pattern joinsPattern = Pattern.compile("\\b(JOIN|join|INNER|inner|LEFT|left|RIGHT|right|FULL|full)\\b"); // joins
             Pattern addFunctionsPattern = Pattern.compile("\\b(AVG|avg|GROUP BY|group by|ORDER BY|order by|ASC|asc|DESC|desc|MIN|min|MAX|max|SUM|sum|COUNT|count|LOWER|lower|UPPER|upper|REPLACE|replace|AS|as|TRIM|trim|CONCAT|concat)\\b");
             Pattern numbersPattern = Pattern.compile("\\b-?\\d+(\\.\\d+)?\\b");   // Números enteros y decimales

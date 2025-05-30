@@ -20,7 +20,8 @@ import java.util.ArrayList;
 public class Acceso_SGBD extends javax.swing.JFrame {
 
     Conexion conexion;
-    ArrayList<String> dataBases; 
+    ArrayList<String> dataBases;
+
     /**
      * Creates new form Acceso_SDGB
      */
@@ -33,16 +34,17 @@ public class Acceso_SGBD extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         conexion = new Conexion();
         // Para SQL Server
-        Conexion.setUsuarioUsed("sa");
-        Conexion.setPasswordUsed("237O00526");
-        Conexion.setIdSGBD(1);
+//        Conexion.setUsuarioUsed("sa");
+//        Conexion.setPasswordUsed("237O00526");
+//        Conexion.setIdSGBD(1);
         // Para MySQL
-        /*Conexion.setUsuarioUsed("root");
+        Conexion.setUsuarioUsed("root");
         Conexion.setPasswordUsed("Anastasio5602");
-        Conexion.setIdSGBD(2);*/   
+        Conexion.setIdSGBD(2);
         showSGBD();
     }
-        // Asigna el icono de la imagen al estar ejecutandose la interfaz
+    // Asigna el icono de la imagen al estar ejecutandose la interfaz
+
     @Override
     public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("PruebaMuestraDatosSQL/img/Logo.png"));
@@ -69,6 +71,7 @@ public class Acceso_SGBD extends javax.swing.JFrame {
         jBtnConnect = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setIconImage(getIconImage());
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -136,28 +139,22 @@ public class Acceso_SGBD extends javax.swing.JFrame {
             Conexion.setBaseUsed(jComboSGBD.getSelectedItem().toString());
             Conexion.setUsuarioUsed(jTextUser.getText().trim());
             Conexion.setPasswordUsed(jTextPassw.getText().trim());
-            // Conexion.setIdSGBD(1);
-            // conexion = new Conexion("PuntoVenta", jTextUser.getText().trim(), jTextPassw.getText().trim());
-        } else if (jComboSGBD.getSelectedItem().toString().equals("MySQL") && !jTextUser.getText().isBlank() && !jTextPassw.getText().isBlank()) {
-            // Valores para asignar la conexión al SGBD elejido
-            Conexion.setBaseUsed(jComboSGBD.getSelectedItem().toString());
-            Conexion.setUsuarioUsed(jTextUser.getText().trim());
-            Conexion.setPasswordUsed(jTextPassw.getText().trim());
             // Conexion.setIdSGBD(2);
             // conexion = new Conexion("PuntoVenta", jTextUser.getText().trim(), jTextPassw.getText().trim());
-        } else {
+        }else{    
             JOptionPane.showMessageDialog(this, "Hay campos faltantes");
             return;
+                    
         }
-        JOptionPane.showMessageDialog(this, "Estableciendo conexión...");
-        this.dispose();
-        JFrame interfazDatos = new MuestraDatos1();
-        interfazDatos.setVisible(true);
+            JOptionPane.showMessageDialog(this, "Estableciendo conexión...");
+            this.dispose();
+            JFrame interfazDatos = new MuestraDatos1();
+            interfazDatos.setVisible(true);
     }//GEN-LAST:event_jBtnConnectActionPerformed
 
     /**
-     * @param args the command line arguments
-     */
+         * @param args the command line arguments
+         */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -202,11 +199,11 @@ public class Acceso_SGBD extends javax.swing.JFrame {
     private javax.swing.JTextField jTextPassw;
     private javax.swing.JTextField jTextUser;
     // End of variables declaration//GEN-END:variables
-    private void showSGBD(){
+    private void showSGBD() {
         jComboSGBD.removeAllItems();
-        dataBases = Consulta.getDataBases(conexion.getConexion(Conexion.getIdSGBD()));    
-        for(String dataBase : dataBases){
+        dataBases = Consulta.getDataBases(conexion.getConexion(Conexion.getIdSGBD()));
+        for (String dataBase : dataBases) {
             jComboSGBD.addItem(dataBase);
         }
-    }    
+    }
 }
