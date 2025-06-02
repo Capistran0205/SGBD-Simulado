@@ -34,13 +34,13 @@ public class Acceso_SGBD extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         conexion = new Conexion();
         // Para SQL Server
-//        Conexion.setUsuarioUsed("sa");
-//        Conexion.setPasswordUsed("237O00526");
-//        Conexion.setIdSGBD(1);
+        Conexion.setUsuarioUsed("sa");
+        Conexion.setPasswordUsed("237O00526");
+        Conexion.setIdSGBD(1);
         // Para MySQL
-        Conexion.setUsuarioUsed("root");
-        Conexion.setPasswordUsed("Anastasio5602");
-        Conexion.setIdSGBD(2);
+//        Conexion.setUsuarioUsed("root");
+//        Conexion.setPasswordUsed("Anastasio5602");
+//        Conexion.setIdSGBD(2);
         showSGBD();
     }
     // Asigna el icono de la imagen al estar ejecutandose la interfaz
@@ -97,6 +97,7 @@ public class Acceso_SGBD extends javax.swing.JFrame {
         jPanel1.add(jTextUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, 150, -1));
         jPanel1.add(jTextPassw, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 150, -1));
 
+        jBtnClose.setBackground(new java.awt.Color(255, 51, 51));
         jBtnClose.setText("Close");
         jBtnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,6 +106,7 @@ public class Acceso_SGBD extends javax.swing.JFrame {
         });
         jPanel1.add(jBtnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 180, 80, -1));
 
+        jBtnConnect.setBackground(new java.awt.Color(0, 255, 0));
         jBtnConnect.setText("Conect");
         jBtnConnect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -11,6 +11,7 @@ import TablaBD.app.com.ModeloDatos;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ItemEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -27,9 +28,11 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.DefaultListModel;
 import javax.swing.JTextPane;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.StyleContext;
+import java.sql.Types;
 
 /**
  *
@@ -40,6 +43,8 @@ public class MuestraDatos1 extends javax.swing.JFrame {
     private Conexion conexion = new Conexion();
     private ModeloDatos dataModel;
     private ArrayList<String> metadataTables = null;
+    ArrayList<String> descripciones = null;
+    ArrayList<Integer> tipos = null;
     // Aplicación de colores
     final StyleContext contenido = StyleContext.getDefaultStyleContext();
     final AttributeSet reserved = contenido.addAttribute(contenido.getEmptySet(), StyleConstants.Foreground, new Color(0, 170, 228));
@@ -55,19 +60,21 @@ public class MuestraDatos1 extends javax.swing.JFrame {
      */
     public MuestraDatos1() {
         initComponents();
-        this.setSize(new Dimension(620, 490));
+        this.setSize(new Dimension(635, 635));
         this.setTitle("Simulador de un SGBD Básico");
         this.setResizable(false);
         this.setLocationRelativeTo(null);
         this.reloadDataBasesTable(Conexion.getIdSGBD());
         this.applyColors();
     }
-        // Asigna el icono de la imagen al estar ejecutandose la interfaz
+    // Asigna el icono de la imagen al estar ejecutandose la interfaz
+
     @Override
-    public Image getIconImage() {        
+    public Image getIconImage() {
         Image retValue = Toolkit.getDefaultToolkit().getImage(ClassLoader.getSystemResource("PruebaMuestraDatosSQL/img/Logo.png"));
         return retValue;
-    }    
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -85,6 +92,9 @@ public class MuestraDatos1 extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jComboTables = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jListColumnsSelectTable = new javax.swing.JList<>();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tablaBD = new javax.swing.JTable();
@@ -131,33 +141,49 @@ public class MuestraDatos1 extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 400, 220));
+        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 20, 400, 350));
 
         jPanel3.setBackground(new java.awt.Color(0, 0, 0));
 
         jComboTables.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboTables.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                jComboTablesItemStateChanged(evt);
+            }
+        });
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 51, 51));
         jLabel2.setText("Tablas");
+
+        jLabel5.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 51, 51));
+        jLabel5.setText("Columnas");
+
+        jScrollPane2.setViewportView(jListColumnsSelectTable);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jComboTables, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jComboTables, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(49, 49, 49)
+                .addComponent(jLabel5)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -166,10 +192,14 @@ public class MuestraDatos1 extends javax.swing.JFrame {
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jComboTables, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addGap(21, 21, 21)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, -1, 70));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 20, 160, 210));
 
         jPanel4.setBackground(new java.awt.Color(0, 0, 0));
         jPanel4.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
@@ -218,7 +248,7 @@ public class MuestraDatos1 extends javax.swing.JFrame {
                 .addGap(18, 18, 18))
         );
 
-        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 250, 580, 200));
+        jPanel1.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 390, 580, 200));
 
         jCloseMenu.setBackground(new java.awt.Color(255, 51, 51));
         jCloseMenu.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -228,7 +258,7 @@ public class MuestraDatos1 extends javax.swing.JFrame {
                 jCloseMenuActionPerformed(evt);
             }
         });
-        jPanel1.add(jCloseMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 200, 110, -1));
+        jPanel1.add(jCloseMenu, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 340, 110, -1));
 
         jBtnExecute.setBackground(new java.awt.Color(0, 204, 51));
         jBtnExecute.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -238,7 +268,7 @@ public class MuestraDatos1 extends javax.swing.JFrame {
                 jBtnExecuteActionPerformed(evt);
             }
         });
-        jPanel1.add(jBtnExecute, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 110, 110, -1));
+        jPanel1.add(jBtnExecute, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 250, 110, -1));
 
         jBtnNewDoc.setBackground(new java.awt.Color(255, 153, 51));
         jBtnNewDoc.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -248,7 +278,7 @@ public class MuestraDatos1 extends javax.swing.JFrame {
                 jBtnNewDocActionPerformed(evt);
             }
         });
-        jPanel1.add(jBtnNewDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 140, 110, -1));
+        jPanel1.add(jBtnNewDoc, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 280, 110, -1));
 
         jOpenFile.setBackground(new java.awt.Color(51, 153, 255));
         jOpenFile.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
@@ -258,17 +288,19 @@ public class MuestraDatos1 extends javax.swing.JFrame {
                 jOpenFileActionPerformed(evt);
             }
         });
-        jPanel1.add(jOpenFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 170, 110, -1));
+        jPanel1.add(jOpenFile, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 310, 110, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 620, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 490, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 635, Short.MAX_VALUE)
         );
 
         pack();
@@ -329,6 +361,32 @@ public class MuestraDatos1 extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jOpenFileActionPerformed
 
+    private void jComboTablesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jComboTablesItemStateChanged
+        if (evt.getStateChange() == ItemEvent.SELECTED) {
+            // Definición del modelo para la JList que contendra la descripción de la columna con su tipo de datos asociado
+            DefaultListModel listModel = new DefaultListModel();
+            // Obtención de los metadatos asociados a las columnas de la tabla seleccionada
+            Consulta.setCommonColumnsTable(Conexion.getConexion(Conexion.getIdSGBD()), evt.getItem().toString(), Conexion.getBase());
+
+            // Asignación de las columnas y su tipo de dato asociado
+            this.descripciones = Consulta.getColumnsDescrip();
+            this.tipos = Consulta.getColumnsType();
+
+            for (int i = 0; i < descripciones.size(); i++) {
+                String desc = descripciones.get(i);
+                int tipo = tipos.get(i);
+                String tipoStr = sqlTypeToString(tipo);  // Convertimos int -> nombre del tipo
+
+                // Crear una cadena independiente para cada columna
+                String columnInfo = desc +"   "+ tipoStr;
+                // Agregar la cadena al modelo de la lista
+                listModel.addElement(columnInfo);
+            }
+
+            this.jListColumnsSelectTable.setModel(listModel);
+        }
+    }//GEN-LAST:event_jComboTablesItemStateChanged
+
     /**
      * @param args the command line arguments
      */
@@ -372,19 +430,24 @@ public class MuestraDatos1 extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JList<String> jListColumnsSelectTable;
     private javax.swing.JButton jOpenFile;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTextPane jTextSqlQuerys;
     public static javax.swing.JTable tablaBD;
     // End of variables declaration//GEN-END:variables
     private void reloadDataTable(int opcion, String query) {
+        // Definición del modelo datos para mostrar los datos de la tabla, con el método ModeloDatos
         dataModel = new ModeloDatos(conexion, opcion, query); // Paso del objeto conexión y de la opción de SGBD, en este caso MySQL        
-        if (dataModel != null) {
+        // Válidar si se logro añadir el modelo de datos con éxito
+        if (dataModel != null) {            
             MuestraDatos1.tablaBD.setModel(dataModel);
             JOptionPane.showMessageDialog(this, "Modelo de Datos definido", "Estado del Modelo de Datos", JOptionPane.INFORMATION_MESSAGE);
         } else {
@@ -500,7 +563,7 @@ public class MuestraDatos1 extends javax.swing.JFrame {
             while (functionsMatcher.find()) {
                 int start = functionsMatcher.start();
                 int length = functionsMatcher.end() - start;
-                
+
                 // 🔍 Misma verificación: no colorear si está dentro de cadenas
                 if (!isInsideStringOrChar(text, start, stringPattern, charPattern)) {
                     doc.setCharacterAttributes(start, length, addFunctions, false);
@@ -547,5 +610,44 @@ public class MuestraDatos1 extends javax.swing.JFrame {
         }
 
         return false;  // No está dentro de ninguna cadena o carácter
+    }
+
+    // Método para convertir el entero del tipo SQL a un String legible
+    public static String sqlTypeToString(int type) {
+        switch (type) {
+            case Types.VARCHAR:
+                return "VARCHAR";
+            case Types.LONGVARCHAR:
+                return "TEXT";
+            case Types.LONGNVARCHAR:
+                return "LONG TEXT";
+            case Types.VARBINARY:
+                return "VARBINARY";
+            case Types.BLOB:
+                return "BLOB";
+            case Types.BIGINT:
+                return "BIGINT";
+            case Types.INTEGER:
+                return "INTEGER";
+            case Types.CHAR:
+                return "CHAR";
+            case Types.DATE:
+                return "DATE";
+            case Types.TIMESTAMP:
+                return "DATETIME";
+            case Types.NUMERIC:
+                return "NUMERIC";
+            case Types.DOUBLE:
+                return "DOUBLE";
+            case Types.DECIMAL:
+                return "DECIMAL";
+            case Types.FLOAT:
+                return "FLOAT";
+            case Types.BOOLEAN:
+                return "BOOLEAN";
+            // ... puedes agregar más según necesites
+            default:
+                return "UNKNOWN(" + type + ")";
+        }
     }
 }

@@ -137,6 +137,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jBtnClose">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="33" green="33" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Close"/>
           </Properties>
           <Events>
@@ -150,6 +153,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="jBtnConnect">
           <Properties>
+            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="ff" red="0" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="Conect"/>
           </Properties>
           <Events>
