@@ -127,13 +127,13 @@ public class MuestraDatos1 extends javax.swing.JFrame {
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(136, 136, 136)
-                .addComponent(jLabel3)
-                .addContainerGap(156, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane3)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(145, 145, 145)
+                .addComponent(jLabel3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -324,6 +324,7 @@ public class MuestraDatos1 extends javax.swing.JFrame {
                     try {
                         String result = Consulta.executeQueryWrite(Conexion.getConexion(Conexion.getIdSGBD()), queryText);
                         JOptionPane.showMessageDialog(null, result, "Resultado de Consulta", JOptionPane.INFORMATION_MESSAGE);
+                        this.reloadDataBasesTable(Conexion.getIdSGBD());
                     } catch (SQLException ex) {
                         JOptionPane.showMessageDialog(null, "Error al realizar query de escritura: " + ex.getMessage(), "Error de consultas", JOptionPane.ERROR_MESSAGE);
                     }

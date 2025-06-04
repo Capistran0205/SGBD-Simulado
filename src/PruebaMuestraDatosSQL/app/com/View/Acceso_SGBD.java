@@ -34,13 +34,13 @@ public class Acceso_SGBD extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         conexion = new Conexion();
         // Para SQL Server
-        Conexion.setUsuarioUsed("sa");
-        Conexion.setPasswordUsed("237O00526");
-        Conexion.setIdSGBD(1);
+//        Conexion.setUsuarioUsed("sa");
+//        Conexion.setPasswordUsed("237O00526");
+//        Conexion.setIdSGBD(1);
         // Para MySQL
-//        Conexion.setUsuarioUsed("root");
-//        Conexion.setPasswordUsed("Anastasio5602");
-//        Conexion.setIdSGBD(2);
+        Conexion.setUsuarioUsed("root");
+        Conexion.setPasswordUsed("Anastasio5602");
+        Conexion.setIdSGBD(2);
         showSGBD();
     }
     // Asigna el icono de la imagen al estar ejecutandose la interfaz
